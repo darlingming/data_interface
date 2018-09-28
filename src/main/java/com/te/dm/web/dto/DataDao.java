@@ -33,7 +33,7 @@ public class DataDao {
             Connection conn = JdbcConnectionsPool.getConnection();
 
             //3,用prepareStatement获取sql语句
-            String sql = "SELECT t.value FROM t_data_count  t  where  t.key =  ?";
+            String sql = "SELECT t.data_value FROM t_data_count  t  where  t.data_key =  ?";
 
             //3,用prepareStatement获取sql语句
             ps = conn.prepareStatement(sql);
@@ -44,7 +44,7 @@ public class DataDao {
                 result.setCode(DataCodeEnum.SUCCESS.getCode());
                 result.setMessage(DataCodeEnum.SUCCESS.getMsg());
                 result.setTime(new Date());
-                result.setData(new DataEntity(rs.getString("value")));
+                result.setData(new DataEntity(rs.getString("data_value")));
                 result.setSerialNumber(serialNumber);
             } else {
                 result.setCode(DataCodeEnum.DATA_NOT_FOUND.getCode());
@@ -87,7 +87,7 @@ public class DataDao {
             Connection conn = JdbcConnectionsPool.getConnection();
 
             //3,用prepareStatement获取sql语句
-            String sql = "SELECT t.value FROM t_data_info t where t.key = ?";
+            String sql = "SELECT t.data_value FROM t_data_info t where t.data_key = ?";
 
             //3,用prepareStatement获取sql语句
             ps = conn.prepareStatement(sql);
@@ -98,7 +98,7 @@ public class DataDao {
                 result.setCode(DataCodeEnum.SUCCESS.getCode());
                 result.setMessage(DataCodeEnum.SUCCESS.getMsg());
                 result.setTime(new Date());
-                result.setData(new DataEntity(rs.getString("value")));
+                result.setData(new DataEntity(rs.getString("data_value")));
                 result.setSerialNumber(serialNumber);
             } else {
                 result.setCode(DataCodeEnum.DATA_NOT_FOUND.getCode());

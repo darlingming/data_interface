@@ -148,6 +148,7 @@ public class DataAction extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //logger.info(request.getQueryString());
+
         String method = request.getMethod();
         String action = request.getParameter("action");
         String serialNumber = request.getParameter("serialNumber");

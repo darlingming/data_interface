@@ -31,7 +31,6 @@ public class DataDao {
         ResultSet rs = null;
         try {
             Connection conn = JdbcConnectionsPool.getConnection();
-
             //3,用prepareStatement获取sql语句
             String sql = "SELECT t.data_value FROM t_data_count  t  where  t.data_key =  ?";
 
@@ -54,9 +53,6 @@ public class DataDao {
                 result.setSerialNumber(serialNumber);
             }
 
-            rs.close();
-            ps.close();
-            JdbcConnectionsPool.closeConnection();
         } catch (SQLException e) {
             logger.error("SQLException", e);
             result.setCode(DataCodeEnum.ERROR.getCode());
@@ -64,8 +60,15 @@ public class DataDao {
             result.setTime(new Date());
             result.setData(new DataEntity(null));
             result.setSerialNumber(serialNumber);
+        }finally {
+            try {
+                rs.close();
+                ps.close();
+                JdbcConnectionsPool.closeConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
 
         return result;
 
@@ -108,9 +111,6 @@ public class DataDao {
                 result.setSerialNumber(serialNumber);
             }
 
-            rs.close();
-            ps.close();
-            JdbcConnectionsPool.closeConnection();
         } catch (SQLException e) {
             logger.error("SQLException", e);
             result.setCode(DataCodeEnum.ERROR.getCode());
@@ -118,6 +118,14 @@ public class DataDao {
             result.setTime(new Date());
             result.setData(new DataEntity(null));
             result.setSerialNumber(serialNumber);
+        }finally {
+            try {
+                rs.close();
+                ps.close();
+                JdbcConnectionsPool.closeConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -140,24 +148,25 @@ public class DataDao {
             Connection conn = JdbcConnectionsPool.getConnection();
             //2,执行数据库语句
             String sql = "SELECT t.token FROM t_data_token t where t.token = ?";
-
             //3,用prepareStatement获取sql语句
             ps = conn.prepareStatement(sql);
             ps.setString(1, token);
-
             rs = ps.executeQuery();
-
             if (rs.next()) {
                 rs.getString("token");
                 bool = true;
             }
-
-            rs.close();
-            ps.close();
-
         } catch (SQLException e) {
             logger.error("SQLException", e);
             throw e;
+        }finally {
+            try {
+                rs.close();
+                ps.close();
+                JdbcConnectionsPool.closeConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return bool;
